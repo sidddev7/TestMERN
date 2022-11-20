@@ -23,7 +23,7 @@ app.use(
 const PORT = process.env.PORT || 5000;
 //connnect to mongo
 
-let db = dbconfig.mongoUrlLocal;
+let db = dbconfig.mongoURL;
 mongoose
   .connect(db)
   .then(() =>

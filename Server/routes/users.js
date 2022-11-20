@@ -15,7 +15,7 @@ import {
 const users = express.Router();
 
 users.get("/me", AuthVerifyGetLoggedInUser);
-users.post("/", AuthVerifyAdminUser, addNewUser);
+users.post("/",  addNewUser);
 users.post("/login", loginUser);
 users.get("/", AuthVerifyAdminUser, getAllUsers);
 users.put("/:id", AuthVerifyAdminUser, updateUser);
