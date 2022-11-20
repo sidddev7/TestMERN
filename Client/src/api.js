@@ -1,7 +1,7 @@
 import axios from "axios";
 import NotificationMessage from "./containers/components/common/notificationMessage";
 
-let baseURL = "http://localhost:5000";
+let baseURL = "https://test-mern-be.onrender.com";
 
 export const currentURL = baseURL;
 const API = axios.create({

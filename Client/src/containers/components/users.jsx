@@ -46,7 +46,11 @@ export default function Users(props) {
             </Button>
             <Button
               disabled={
-                props.me.role === 1 ? false : props.me.id !== record._id
+                props.me.role === 1
+                  ? props.me.id === record._id
+                    ? true
+                    : false
+                  : props.me.id !== record._id
               }
               onClick={() =>
                 setmisc({ ...misc, deleteModal: true, id: record._id })
