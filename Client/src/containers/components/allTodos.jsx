@@ -20,18 +20,19 @@ import {
 
 export default function AllTodos(props) {
   const [data, setdata] = useState([]);
+  const [params, setparams] = useState({ status: "active" });
   console.log(data);
   const [misc, setmisc] = useState({
     todoModalVisible: false,
     todoData: {},
   });
   async function fetchData() {
-    const response = await getAllTodos();
+    const response = await getAllTodos(params);
     setdata(response.data.todos);
   }
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [params]);
   const columns = [
     {
       title: "Name",
@@ -80,18 +81,33 @@ export default function AllTodos(props) {
   ];
   return (
     <>
-      {props.me.role === 1 && (
-        <div style={{ width: "100%", textAlign: "right", marginBottom: "1em" }}>
-          <Button
-            onClick={() =>
-              setmisc({ ...misc, todoModalVisible: true, todoData: {} })
+      <div
+        style={{
+          width: "100%",
+          display: "flex",
+          marginBottom: "1em",
+          justifyContent: "space-between",
+        }}
+      >
+        <label style={{color:'black'}} >
+          Filter by Status{" "}
+          <Switch
+            checked={params.status === "active"}
+            onChange={(value) =>
+              setparams({ ...params, status: value ? "active" : "inactive" })
             }
-            style={{ rigth: "0" }}
-          >
-            Add new todo
-          </Button>
-        </div>
-      )}
+          />{" "}
+        </label>
+
+        <Button
+          onClick={() =>
+            setmisc({ ...misc, todoModalVisible: true, todoData: {} })
+          }
+          style={{ rigth: "0" }}
+        >
+          Add new todo
+        </Button>
+      </div>
       <Table columns={columns} dataSource={data} />
       <TodoModal data={misc} setData={setmisc} refreshtodos={fetchData} />
       <DeleteModal
@@ -105,7 +121,7 @@ export default function AllTodos(props) {
 
 const TodoModal = ({ data, setData, refreshtodos }) => {
   try {
-    const [formData, setformData] = useState({});
+    const [formData, setformData] = useState({ status: "active" });
     const [form] = Form.useForm();
     useEffect(() => {
       if (data?.todoData?._id) {
@@ -117,7 +133,7 @@ const TodoModal = ({ data, setData, refreshtodos }) => {
         setformData({ ...data.todoData });
       } else {
         form.resetFields();
-        setformData({});
+        setformData({ status: "active" });
       }
     }, [data.todoData]);
     const handleSave = async () => {

@@ -1,9 +1,9 @@
 import API from "../../api";
 const BASEURLTODO = "/todo";
 
-export const getTodos = async () => {
+export const getTodos = async (params) => {
   try {
-    const result = await API.get(BASEURLTODO);
+    const result = await API.get(BASEURLTODO, { params: params });
     if (result.status === 200) {
       return { data: result.data, status: true };
     }
@@ -40,9 +40,9 @@ export const createtodo = async (data) => {
     }
   } catch (err) {}
 };
-export const getAllTodos = async () => {
+export const getAllTodos = async (params) => {
   try {
-    const response = await API.get(BASEURLTODO + "/all");
+    const response = await API.get(BASEURLTODO + "/all", { params: params });
     if (response.status === 200) {
       return { data: response.data, status: true };
     }

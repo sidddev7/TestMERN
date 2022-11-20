@@ -20,9 +20,9 @@ export const addTodo = async (req, res) => {
 
 export const getUsersTodoList = async (req, res) => {
   try {
-    const { limit, page } = req.query;
+    const { limit, page, status } = req.query;
     const count = await Todo.countDocuments({ user: res.locals.id });
-    const todos = await Todo.find({ user: res.locals.id })
+    const todos = await Todo.find({ user: res.locals.id, status: status })
       .limit(parseInt(limit))
       .skip(parseInt(limit) * (parseInt(page) - 1))
       .limit(limit)
@@ -68,8 +68,10 @@ export const updateTodo = async (req, res) => {
 
 export const getAllTodos = async (req, res) => {
   try {
+    const { status } = req.query;
+    console.log(status);
     const count = await Todo.countDocuments();
-    const todos = await Todo.find().populate({
+    const todos = await Todo.find({ status: status }).populate({
       path: "user",
       select: { password: 0 },
     });

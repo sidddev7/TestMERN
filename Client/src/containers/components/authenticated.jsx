@@ -14,7 +14,7 @@ export default function Authenticated(props) {
       disabled: meData.role !== 1,
     },
     {
-      label: "Todo",
+      label: "My Todos",
       link: "/todo",
     },
   ];
@@ -23,6 +23,11 @@ export default function Authenticated(props) {
       const result = await getMe();
       if (result.status) {
         setmeData(result.data);
+        if (result.data.role !== 1) {
+          navigate("/todo");
+        }else{
+          navigate("/users")
+        }
       }
     };
     fetchMe();
@@ -67,7 +72,9 @@ export default function Authenticated(props) {
               </Tooltip>
             </Menu.Item>{" "}
             <Menu.Item style={{ marginLeft: "auto" }}>
-              <Popover content={()=>popupContent(props)}>{meData.name}</Popover>
+              <Popover content={() => popupContent(props, navigate)}>
+                {meData.name}
+              </Popover>
             </Menu.Item>
           </Menu>
         </Header>
@@ -88,14 +95,15 @@ export default function Authenticated(props) {
   );
 }
 
-const popupContent = (props) => {
+const popupContent = (props, navigate) => {
   return (
     <>
       <p
         style={{ cursor: "pointer" }}
         onClick={() => {
           sessionStorage.removeItem("token");
-          props.setauthState(false)
+          props.setauthState(false);
+          navigate("/");
         }}
       >
         Logout
