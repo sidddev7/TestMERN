@@ -3,7 +3,6 @@ import React, { useEffect } from "react";
 import { useState } from "react";
 import { login } from "../actions/users";
 import "../componentStyle.css";
-import Login from "../login";
 import Authenticated from "./authenticated";
 export default function Home() {
   const [authState, setauthState] = useState(null);
